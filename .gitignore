@@ -1,6 +1,6 @@
 target/
 *.class
-*.jar
 .idea/
 .vscode/
-*.log
+*.iml
+.DS_Store
