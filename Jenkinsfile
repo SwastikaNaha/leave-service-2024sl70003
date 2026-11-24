@@ -20,7 +20,7 @@ pipeline {
         stage('SonarQube Code Inspection') {
             steps {
                 withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
-                    sh 'mvn verify sonar:sonar -Dsonar.projectKey=leave-service-2024sl70003 -Dsonar.host.url=http://localhost:9000 -Dsonar.login=$SONAR_TOKEN'
+                    sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:3.11.0.3922:sonar -Dsonar.projectKey=leave-service-2024sl70003 -Dsonar.host.url=http://localhost:9000 -Dsonar.login=$SONAR_TOKEN'
                 }
             }
         }
