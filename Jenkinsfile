@@ -24,5 +24,18 @@ pipeline {
                 }
             }
         }
+        stage('Package Jar and Build Docker Image') {
+            steps {
+                sh 'mvn clean package -DskipTests'
+                sh 'docker build -t leave-service-2024sl70003:1.0 .'
+            }
+        }
+        stage('Deploy to Staging') {
+            steps {
+                sh 'docker rm -f leave-staging-2024sl70003 || true'
+                sh 'docker run -d --name leave-staging-2024sl70003 -p 8085:8080 -e APP_ENV=staging leave-service-2024sl70003:1.0'
+                sh 'sleep 2 && curl -f http://localhost:8085'
+            }
+        }
     }
 }
