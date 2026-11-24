@@ -37,5 +37,17 @@ pipeline {
                 sh 'sleep 2 && curl -f http://localhost:8085'
             }
         }
+        stage('Approval For Production') {
+            steps {
+                input message: 'Approve deployment to Production?', ok: 'Deploy'
+            }
+        }
+        stage('Deploy to Production') {
+            steps {
+                sh 'docker rm -f leave-prod-2024sl70003 || true'
+                sh 'docker run -d --name leave-prod-2024sl70003 -p 8086:8080 -e APP_ENV=production leave-service-2024sl70003:1.0'
+                sh 'sleep 2 && curl -f http://localhost:8086'
+            }
+        }
     }
 }
